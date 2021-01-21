@@ -1,0 +1,133 @@
+#!/bin/bash
+
+# Rajpreet Judghe
+# CSE 224, Professor Nick Macias
+# 10/04/2019
+# Programming Assignment 1 (PA1)
+# The stick game is a turn based game that has user and computer picking sticks until the pile is at 0 whoever picks the last stick pulled is the winner
+
+#=======================================================================================================================================================
+
+#initializing variables i = number of sticks, a = user or computer variable, k is the apart of printing sticks to interface, s = number of sticks user or computer is taking.
+
+i=0
+a=0
+k=0
+s=0
+sticknum=0
+
+#introducing the user
+
+echo "Hello Player! Welcome to the stick game,"
+echo "this is where your knowledge will be"
+echo "tested by the computer."
+
+#asking user for number input
+
+echo "Enter How many sticks you would like"
+echo "to play with (Int >= 10)"
+read i
+
+#Looping until correct input
+
+while [[ i -lt 10 ]]
+  do 
+  echo "Enter How many sticks you would like"
+  echo "to play with (Int >= 10)"
+  read i
+done
+
+#asking user who is going first
+
+echo "Enter (c) if you want the computer to 
+  go first or (u) if user first."
+read a 
+
+#Looping until correct player selection
+
+while [[ "$a" != "c" ]] && [[ "$a" != "u" ]]
+  do
+  echo "Enter (c) if you want the computer to 
+  go first or (u) if user first."
+  read a
+done
+
+#User inputs are entered into if statement to have either user play first or computer play first
+
+if [[ $a == "c" ]]
+  then
+  echo "Starting Pile of sticks"
+  while [[ $k -ne $i ]]
+    do
+    echo -n  "|"
+    k=$((k+1))
+  done
+  echo -e "($i)"
+  else
+  echo "Starting Pile of sticks"
+  while [[ $k -ne $i ]]
+    do
+    echo -n  "|"
+    k=$((k+1))
+  done
+  echo -e "($i)"              
+fi
+
+#Actual game logic
+
+while [[ $i -gt 0 ]]
+do
+#User logic =================================================================================================
+  if [[ $a == "u" ]]
+  then
+    echo 
+    echo "user turn, enter number of sticks you want to take (1, 2 or 3 sticks)"
+    read s
+    echo
+    echo "User takes $s sticks" 
+    if [[ $s -lt 1 ]] || [[ $s -gt 3 ]]
+    then
+      echo "Error invalid entry! Enter correct number of sticks you want to take (1, 2 or 3 sticks)"
+      read s
+    fi
+    if [[ $s -lt 1 ]] || [[ $s -gt 3 ]]
+    then
+      echo "You have forfeited the game, you lose"
+      exit 0
+    else
+      i=$((i-$s))
+    for ((p=0;p<$i;p++))
+      do
+      echo -n "|"
+    done
+    echo -e "($i)"\ 
+    a="c" 
+  fi
+#Comp logic ==========================================================
+    elif [[ $a == "c" ]]
+    then
+      sticknum=$((i%4))
+      if [[ $sticknum == 0 ]]
+      then 
+      sticknum=1
+      fi
+    echo 
+    echo "Computer takes $sticknum sticks"
+    i=$((i-$sticknum))
+      for ((k=0;k<$i;k++))
+      do
+        echo -n "|"
+      done
+    echo "($i)"
+    a="u"
+    fi
+
+done
+
+if [[ $a == "u" ]]
+then 
+  echo "Computer won HAHAHAHAHAHA"
+else
+  echo "User victorious and is smarter than computer!"
+fi
+
